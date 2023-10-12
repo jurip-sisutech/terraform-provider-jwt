@@ -38,7 +38,7 @@ func resourceHashedToken() *schema.Resource {
 			},
 			"token": &schema.Schema{
 				Type:        schema.TypeString,
-				Description: "The JWT token, as a string."
+				Description: "The JWT token, as a string.",
 				Computed:    true,
 				Sensitive:   true,
 			},
