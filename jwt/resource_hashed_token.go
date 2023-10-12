@@ -19,7 +19,7 @@ func resourceHashedToken() *schema.Resource {
 				Type:         schema.TypeString,
 				Optional:     true,
 				Default:      "HS512",
-				Description:  "Signing algorithm to use.",
+				Description:  "Signing algorithm to use. Defaults to `HS512`. Supported algorithms are `HS256`, `HS384`, `HS512`.",
 				ValidateFunc: validateHashingAlgorithm,
 				ForceNew:     true,
 			},
