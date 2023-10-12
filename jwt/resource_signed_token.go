@@ -19,14 +19,14 @@ func resourceSignedToken() *schema.Resource {
 			"algorithm": &schema.Schema{
 				Type:         schema.TypeString,
 				Required:     true,
-				Description:  "Signing algorithm to use",
+				Description:  "Signing algorithm to use.",
 				ValidateFunc: validateSigningAlgorithm,
 				ForceNew:     true,
 			},
 			"key": &schema.Schema{
 				Type:         schema.TypeString,
 				Required:     true,
-				Description:  "PEM-formated key to sign the JWT with",
+				Description:  "PEM-formated key to sign the JWT with.",
 				ValidateFunc: validateSigningKey,
 				ForceNew:     true,
 				Sensitive:    true,
@@ -34,13 +34,14 @@ func resourceSignedToken() *schema.Resource {
 			"claims_json": &schema.Schema{
 				Type:        schema.TypeString,
 				Required:    true,
-				Description: "The token's claims, as a JSON document",
+				Description: "The token's claims, as a JSON document.",
 				ForceNew:    true,
 			},
 			"token": &schema.Schema{
-				Type:      schema.TypeString,
-				Computed:  true,
-				Sensitive: true,
+				Type:        schema.TypeString,
+				Description: "The JWT token, as a string.",
+				Computed:    true,
+				Sensitive:   true,
 			},
 		},
 	}
@@ -65,7 +66,7 @@ func createSignedJWT(d *schema.ResourceData, meta interface{}) (err error) {
 	} else if _, ok := signer.(*jwtgen.SigningMethodRSA); ok {
 		key, err = jwtgen.ParseRSAPrivateKeyFromPEM([]byte(sKey))
 	} else {
-		err = fmt.Errorf("This provider doesn't know what key type goes with %s", alg)
+		err = fmt.Errorf("This provider doesn't know what key type goes with %s.", alg)
 	}
 	if err != nil {
 		return
@@ -98,7 +99,7 @@ func validateSigningAlgorithm(iAlg interface{}, k string) (warnings []string, er
 	}
 	method := jwtgen.GetSigningMethod(alg)
 	if method == nil {
-		errs = append(errs, fmt.Errorf("%s is not a supported signing algorithim. Options are RS256, RS384, RS512, ES256, ES384, ES512", alg))
+		errs = append(errs, fmt.Errorf("%s is not a supported signing algorithm. Options are RS256, RS384, RS512, ES256, ES384, ES512.", alg))
 		return
 	}
 	if _, isHMAC := method.(*jwtgen.SigningMethodHMAC); isHMAC {

@@ -1,3 +1,6 @@
+# JSON Web Token Provider
+
+The JSON Web Token provider provides a way to generate a valid JSON Web Token to be used on your Terraform code.
 
 # Contributing
 

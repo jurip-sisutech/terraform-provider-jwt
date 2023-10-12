@@ -31,11 +31,11 @@ func TestHashedJWT(t *testing.T) {
 					gotTokenUntyped := s.RootModule().Outputs["example_token"].Value
 					gotToken, ok := gotTokenUntyped.(string)
 					if !ok {
-						return fmt.Errorf("output for \"example_token\" is not a string")
+						return fmt.Errorf("Output for \"example_token\" is not a string.")
 					}
 
 					if gotToken != "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhIjoiYiJ9.cl5DXDjjNUqWzYcsSOvljSs9skgxV7xrxXr6IFXdN_FEYe7qOw-IsWBQBAyB1Ra3kfngwT9h2VK1YuT00Qp-rg" {
-						return fmt.Errorf("Token miscalculated")
+						return fmt.Errorf("Token miscalculated.")
 					}
 
 					return nil

@@ -19,27 +19,28 @@ func resourceHashedToken() *schema.Resource {
 				Type:         schema.TypeString,
 				Optional:     true,
 				Default:      "HS512",
-				Description:  "Signing algorithm to use",
+				Description:  "Signing algorithm to use.",
 				ValidateFunc: validateHashingAlgorithm,
 				ForceNew:     true,
 			},
 			"secret": &schema.Schema{
 				Type:        schema.TypeString,
 				Required:    true,
-				Description: "HMAC secret to sign the JWT with",
+				Description: "HMAC secret to sign the JWT with.",
 				ForceNew:    true,
 				Sensitive:   true,
 			},
 			"claims_json": &schema.Schema{
 				Type:        schema.TypeString,
 				Required:    true,
-				Description: "The token's claims, as a JSON document",
+				Description: "The token's claims, as a JSON document.",
 				ForceNew:    true,
 			},
 			"token": &schema.Schema{
-				Type:      schema.TypeString,
-				Computed:  true,
-				Sensitive: true,
+				Type:        schema.TypeString,
+				Description: "The JWT token, as a string."
+				Computed:    true,
+				Sensitive:   true,
 			},
 		},
 	}
@@ -80,16 +81,16 @@ func readHashedJWT(d *schema.ResourceData, meta interface{}) error {
 func validateHashingAlgorithm(iAlg interface{}, k string) (warnings []string, errs []error) {
 	alg, ok := iAlg.(string)
 	if !ok {
-		errs = append(errs, fmt.Errorf("%s must be a string", k))
+		errs = append(errs, fmt.Errorf("%s must be a string.", k))
 		return
 	}
 	method := jwtgen.GetSigningMethod(alg)
 	if method == nil {
-		errs = append(errs, fmt.Errorf("%s is not a supported signing algorithim. Choices are HS256, HS384, HS512", alg))
+		errs = append(errs, fmt.Errorf("%s is not a supported signing algorithm. Choices are HS256, HS384, HS512.", alg))
 		return
 	}
 	if _, isHMAC := method.(*jwtgen.SigningMethodHMAC); !isHMAC {
-		errs = append(errs, fmt.Errorf("For RSA/ECDSA signing, please use the jwt_signed_token resource"))
+		errs = append(errs, fmt.Errorf("For RSA/ECDSA signing, please use the jwt_signed_token resource."))
 	}
 	return
 }
