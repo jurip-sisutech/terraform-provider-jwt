@@ -16,14 +16,14 @@ func resourceSignedToken() *schema.Resource {
 		Read:   readSignedJWT,
 
 		Schema: map[string]*schema.Schema{
-			"algorithm": &schema.Schema{
+			"algorithm": {
 				Type:         schema.TypeString,
 				Required:     true,
 				Description:  "Signing algorithm to use.",
 				ValidateFunc: validateSigningAlgorithm,
 				ForceNew:     true,
 			},
-			"key": &schema.Schema{
+			"key": {
 				Type:         schema.TypeString,
 				Required:     true,
 				Description:  "PEM-formated key to sign the JWT with.",
@@ -31,16 +31,22 @@ func resourceSignedToken() *schema.Resource {
 				ForceNew:     true,
 				Sensitive:    true,
 			},
-			"claims_json": &schema.Schema{
+			"claims_json": {
 				Type:        schema.TypeString,
 				Required:    true,
 				Description: "The token's claims, as a JSON document.",
 				ForceNew:    true,
 			},
-			"token": &schema.Schema{
+			"token": {
 				Type:        schema.TypeString,
 				Description: "The JWT token, as a string.",
 				Computed:    true,
+				Sensitive:   true,
+			},
+			"kid": {
+				Type:        schema.TypeString,
+				Description: "The JWT token's kid",
+				Required:    true,
 				Sensitive:   true,
 			},
 		},
@@ -71,6 +77,8 @@ func createSignedJWT(d *schema.ResourceData, meta interface{}) (err error) {
 	if err != nil {
 		return
 	}
+
+	token.Header["kid"] = d.Get("kid")
 
 	signedToken, err := token.SignedString(key)
 	if err != nil {
