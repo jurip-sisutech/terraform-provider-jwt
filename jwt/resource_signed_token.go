@@ -45,6 +45,7 @@ func resourceSignedToken() *schema.Resource {
 			},
 			"kid": {
 				Type:        schema.TypeString,
+				ForceNew:    true,
 				Description: "The JWT token's kid",
 				Required:    true,
 				Sensitive:   true,
